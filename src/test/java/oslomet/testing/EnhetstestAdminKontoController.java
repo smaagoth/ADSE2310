@@ -7,7 +7,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import oslomet.testing.API.AdminKontoController;
 import oslomet.testing.DAL.AdminRepository;
 import oslomet.testing.Models.Konto;
-import oslomet.testing.Models.Kunde;
 import oslomet.testing.Sikkerhet.Sikkerhet;
 
 import java.util.ArrayList;
@@ -15,6 +14,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -71,13 +71,13 @@ public class EnhetstestAdminKontoController {
         Konto konto = new Konto("09090928374", "93847264758",
                 54938, "Sparekonto", "NOK", null);
         when(sjekk.loggetInn()).thenReturn("Admin");
-        when(repository.registrerKonto(konto)).thenReturn("OK");
+        when(repository.registrerKonto(any(Konto.class))).thenReturn("OK");
 
         //act
         String resultat = adminKontoController.registrerKonto(konto);
 
         //assert
-        assertEquals(resultat,"OK");
+        assertEquals("OK",resultat);
     }
 
     @Test
@@ -101,13 +101,13 @@ public class EnhetstestAdminKontoController {
         Konto konto = new Konto("09090928374", "93847264758",
                 54938, "Sparekonto", "NOK", null);
         when(sjekk.loggetInn()).thenReturn("Admin");
-        when(repository.endreKonto(konto)).thenReturn("OK");
+        when(repository.endreKonto(any(Konto.class))).thenReturn("OK");
 
         //act
         String resultat = adminKontoController.endreKonto(konto);
 
         //assert
-        assertEquals(resultat,"OK");
+        assertEquals("OK",resultat);
     }
 
     @Test
