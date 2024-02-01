@@ -9,6 +9,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 import org.springframework.mock.web.MockHttpSession;
+import oslomet.testing.DAL.AdminRepository;
 import oslomet.testing.DAL.BankRepository;
 import oslomet.testing.Sikkerhet.Sikkerhet;
 
@@ -30,6 +31,9 @@ public class EnhetstestSikkerhetsController {
 
     @Mock
     private BankRepository repository;
+
+    @Mock
+    private AdminRepository adminRepository;
 
     @Mock
     private MockHttpSession session;
@@ -57,8 +61,6 @@ public class EnhetstestSikkerhetsController {
         }).when(session).setAttribute(anyString(), any());
     }
 
-    //Test for feil i personnummer sjekkLoggInn:
-
     @Test
     public void test_sjekkLoggInn_OK(){
         //arange
@@ -71,17 +73,62 @@ public class EnhetstestSikkerhetsController {
         assertEquals("OK",resultat);
     }
 
-/*    @Test
+    @Test
     public void test_sjekkLoggInn_feilPN(){
+        //act
+        String resultat = sikkerhetsController.sjekkLoggInn("12345610","passord");
+
+        //assert
+        assertEquals("Feil i personnummer",resultat);
+    }
+
+    @Test
+    public void test_sjekkLoggInn_feilPO(){
+        //act
+        String resultat = sikkerhetsController.sjekkLoggInn("12345678910","pass");
+
+        //assert
+        assertEquals("Feil i passord",resultat);
+    }
+
+    @Test
+    public void test_sjekkLoggInn_feilPNPO(){
         //arange
-        when(repository.sjekkLoggInn(anyString(),anyString())).thenReturn("Feil i personnummer");
+        when(repository.sjekkLoggInn(anyString(),anyString())).thenReturn("Feil i personnummer eller passord");
 
         //act
         String resultat = sikkerhetsController.sjekkLoggInn("12345678910","passord");
 
         //assert
-        assertEquals("OK",resultat);
-    }*/
+        assertEquals("Feil i personnummer eller passord",resultat);
+    }
+
+    @Test
+    public void test_loggUt(){
+        session.setAttribute("Innlogget","12345678910");
+        sikkerhetsController.loggUt();
+        Object resultat = session.getAttribute("Innlogget");
+        assertNull(resultat);
+    }
+
+
+    @Test
+    public void test_loggInnAdminInnlogget(){
+        //act
+        String resultat = sikkerhetsController.loggInnAdmin("Admin","Admin");
+
+        //assert
+        assertEquals("Logget inn",resultat);
+    }
+
+    @Test
+    public void test_loggInnAdminIkkeInnlogget(){
+        //act
+        String resultat = sikkerhetsController.loggInnAdmin("Admin","passord");
+
+        //assert
+        assertEquals("Ikke logget inn",resultat);
+    }
 
     @Test
     public void test_LoggetInn_Innlogget(){
@@ -97,7 +144,6 @@ public class EnhetstestSikkerhetsController {
 
     @Test
     public void test_LoggetInn_IkkeInnlogget(){
-        //arrange
         //act
         String resultat = sikkerhetsController.loggetInn();
 
