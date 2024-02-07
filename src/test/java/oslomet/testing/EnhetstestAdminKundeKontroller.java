@@ -159,14 +159,5 @@ public class EnhetstestAdminKundeKontroller {
 
         //assert
         assertEquals("Ikke logget inn", resultat);
-
-
-
     }
-
-
-
-
-
-
 }
