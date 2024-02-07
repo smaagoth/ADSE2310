@@ -53,4 +53,9 @@ public class AdminKontoController {
         }
         return "Ikke innlogget";
     }
+
+    @GetMapping("/initDB")
+    public String initDB(){
+        return repository.initDB(dataSource);
+    }
 }
