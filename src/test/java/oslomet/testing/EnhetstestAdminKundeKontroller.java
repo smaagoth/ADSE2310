@@ -91,14 +91,13 @@ public class EnhetstestAdminKundeKontroller {
         Kunde kunde1 = new Kunde("1","Test","Testesen","Testveien 1",
                 "1234","Testeby","123456","test1234");
 
-        when(sjekk.loggetInn()).thenReturn("1");
-        when(repository.registrerKunde((any(Kunde.class)))).thenReturn("Feil");
+        when(sjekk.loggetInn()).thenReturn(null);
 
         //act
         String resultat = adminKundeController.lagreKunde(kunde1);
 
         //assert
-        assertEquals("Feil",resultat);
+        assertEquals("Ikke logget inn",resultat);
 
     }
 
@@ -124,14 +123,13 @@ public class EnhetstestAdminKundeKontroller {
         Kunde kunde1 = new Kunde("1","Test","Testesen","Testveien 1",
                 "1234","Testeby","123456","test1234");
 
-        when(sjekk.loggetInn()).thenReturn("1");
-        when(repository.endreKundeInfo(any(Kunde.class))).thenReturn("Feil");
+        when(sjekk.loggetInn()).thenReturn(null);
 
         //act
         String resultat = adminKundeController.endre(kunde1);
 
         //assert
-        assertEquals("Feil",resultat);
+        assertEquals("Ikke logget inn",resultat);
     }
 
     @Test

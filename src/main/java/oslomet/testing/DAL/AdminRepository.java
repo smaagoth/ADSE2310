@@ -19,6 +19,12 @@ public class AdminRepository {
     @Autowired
     private JdbcTemplate db;
 
+    /*   public List<Konto> hentAlleKonti() {
+        String sql = "Select * from Konto ORDER BY Kontonummer";
+        List<Konto> alleKonti = db.query(sql,new BeanPropertyRowMapper(Konto.class));
+        return alleKonti;
+    } */
+
     public List<Kunde> hentAlleKunder(){
          try{
              String sql = "Select * from Kunde Join Poststed On Kunde.Postnr = Poststed.Postnr ORDER BY Personnummer" ;
