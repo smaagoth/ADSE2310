@@ -183,7 +183,7 @@ public class EnhetstestBankController {
     }
     
         @Test
-    public void hentTransasksjoner_LoggetInn(){
+    public void hentTransaksjoner_LoggetInn(){
         //arrange
         List<Transaksjon> transaksjons = new ArrayList<>();
         Transaksjon trans1 = new Transaksjon(1,"123456789",150.00,"01.01.2024",
@@ -193,14 +193,16 @@ public class EnhetstestBankController {
         transaksjons.add(trans1);
         transaksjons.add(trans2);
 
+        Konto konto = new Konto("10101012345","123456789",380.00,"brukskonto","NOK",transaksjons);
+
         when(sjekk.loggetInn()).thenReturn("1");
-        when(repository.hentBetalinger(any())).thenReturn(transaksjons);
+        when(repository.hentTransaksjoner(any(),any(),any())).thenReturn(konto);
 
         //act
-        List<Transaksjon> res = bankController.hentBetalinger();
+        Konto res = bankController.hentTransaksjoner("123456789","09.09.01","20.12.01");
 
         //assert
-        assertEquals(transaksjons, res);
+        assertEquals(konto, res);
     }
 
     @Test
@@ -275,8 +277,7 @@ public class EnhetstestBankController {
         String resultat = bankController.registrerBetaling(trans);
 
         //assert
-        assertEquals(null, resultat);
-
+        assertNull(resultat);
     }
 }
 
